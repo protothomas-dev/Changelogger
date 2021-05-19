@@ -31,7 +31,7 @@ struct ReleaseCommand: ParsableCommand {
         Log.isVerbose = verbose
         
         var changelog = try Changelog(changelogPath: changelogPath)
-        try changelog.createVersion(version: versionNumber, build: buildNumber)
+        try changelog.createVersion(versionNumber: versionNumber, buildNumber: buildNumber)
 
         if dryRun {
             Log.message(changelog.text)

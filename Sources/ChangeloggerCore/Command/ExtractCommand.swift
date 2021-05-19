@@ -18,6 +18,9 @@ struct ExtractCommand: ParsableCommand {
     
     @Option(name: .shortAndLong, help: "The path to the folder to which the extracted content should be saved to")
     private var outputFolderPath: String?
+
+    @Option(name: .shortAndLong, help: "The path to the folder to which the extracted content should be saved to")
+    private var configurationPath: String?
     
     @Flag(name: .shortAndLong, help: "Show extra logging for debugging purposes")
     private var verbose: Bool
@@ -28,7 +31,7 @@ struct ExtractCommand: ParsableCommand {
     func run() throws {
         Log.isVerbose = verbose
         
-        let changelog = try Changelog(changelogPath: changelogPath)
+        let changelog = try Changelog(changelogPath: changelogPath, configPath: configurationPath)
         let unreleasedChanges = try changelog.unreleasedChanges()
         
         if dryRun {
