@@ -73,10 +73,10 @@ struct Changelog {
     /**
      Returns a string containing the contents of the unreleased section.
      */
-    func unreleasedChanges() throws -> String {
+    func unreleasedChanges(resolveLinks: Bool = true) throws -> String {
         let unreleasedChanges = try extractUnreleasedChanges(from: text)
 
-        guard let config = config else {
+        guard resolveLinks, let config = config else {
             return unreleasedChanges
         }
 

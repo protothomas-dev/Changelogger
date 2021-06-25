@@ -37,10 +37,14 @@ struct ReleaseCommand: ParsableCommand {
     func run() throws {
         Log.isVerbose = verbose
 
-        // If configPath is set,
         var changelog = try Changelog(changelogPath: changelogPath, configPath: configPath)
-        try changelog.updateAllTicketLinks()
-        let unreleasedChanges = try changelog.unreleasedChanges()
+
+        if configPath != nil {
+            try changelog.updateAllTicketLinks()
+        }
+
+        let unreleasedChanges = try changelog.unreleasedChanges(resolveLinks: false)
+
         try changelog.createVersion(versionNumber: versionNumber, buildNumber: buildNumber)
 
         if dryRun {
