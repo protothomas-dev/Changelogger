@@ -19,7 +19,7 @@ struct ExtractCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "The path to the folder to which the extracted content should be saved to")
     private var outputPath: String?
 
-    @Option(name: .shortAndLong, help: "The path to the changelog config file")
+    @Option(name: .shortAndLong, help: "The path to the changelog config file. If set, the links within the unreleased changes will be resolved")
     private var configPath: String?
     
     @Flag(name: .shortAndLong, help: "Show extra logging for debugging purposes")

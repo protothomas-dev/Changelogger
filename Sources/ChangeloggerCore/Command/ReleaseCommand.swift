@@ -18,7 +18,7 @@ struct ReleaseCommand: ParsableCommand {
     @Argument(help: "The build number")
     private var buildNumber: String
     
-    @Argument(default: "CHANGELOG.md", help: "The path to the changelog file")
+    @Argument(default: "CHANGELOG.md", help: "The path to the changelog file. If set, the links within the unreleased changes will be resolved")
     private var changelogPath: String
     
     @Flag(name: .shortAndLong, help: "Show extra logging for debugging purposes")
