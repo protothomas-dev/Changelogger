@@ -39,6 +39,7 @@ struct ReleaseCommand: ParsableCommand {
 
         // If configPath is set,
         var changelog = try Changelog(changelogPath: changelogPath, configPath: configPath)
+        try changelog.updateAllTicketLinks()
         let unreleasedChanges = try changelog.unreleasedChanges()
         try changelog.createVersion(versionNumber: versionNumber, buildNumber: buildNumber)
 
