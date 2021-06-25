@@ -16,8 +16,8 @@ struct ExtractCommand: ParsableCommand {
     @Argument(default: "CHANGELOG.md", help: "The path to the changelog file")
     private var changelogPath: String
     
-    @Option(name: .shortAndLong, help: "The path to the folder to which the extracted content should be saved to")
-    private var outputPath: String?
+    @Option(name: .shortAndLong, default: "CHANGES.md", help: "The path to the folder to which the extracted content should be saved to")
+    private var outputPath: String
 
     @Option(name: .shortAndLong, help: "The path to the changelog config file. If set, the links within the unreleased changes will be resolved")
     private var configPath: String?
@@ -39,17 +39,9 @@ struct ExtractCommand: ParsableCommand {
         } else {
             Log.debug(unreleasedChanges)
             
-            var path = ""
-            
-            if let filepath = outputPath {
-                let folder = Folder.current
-                let file = try folder.createFileIfNeeded(at: filepath)
-                path = file.path
-            } else {
-                let folder = Folder.current
-                let file = try folder.createFile(named: "CHANGES.md")
-                path = file.path
-            }
+            let folder = Folder.current
+            let file = try folder.createFileIfNeeded(at: outputPath)
+            let path = file.path
             
             try unreleasedChanges.write(toFile: path, atomically: true, encoding: .utf16)
         }
