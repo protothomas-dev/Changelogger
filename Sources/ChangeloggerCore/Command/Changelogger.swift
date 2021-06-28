@@ -10,7 +10,7 @@ import ArgumentParser
 
 public struct Changelogger: ParsableCommand {
     
-    public static let configuration = CommandConfiguration(commandName: "changelogger", abstract: "A Swift command-line tool to manage the changelog", subcommands: [ReleaseCommand.self, ExtractCommand.self, ResolveCommand.self, CloaseUnreleasedCommand.self])
+    public static let configuration = CommandConfiguration(commandName: "changelogger", abstract: "A Swift command-line tool to manage the changelog", subcommands: [ReleaseCommand.self, ExtractCommand.self, ResolveCommand.self, CloaseUnreleasedCommand.self, VersionCommand.self])
     
     public init() { }
     
