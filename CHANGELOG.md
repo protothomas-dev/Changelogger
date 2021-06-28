@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- [#9]: add version command
+
 ### Improved
 
 - [#1]: update readme
