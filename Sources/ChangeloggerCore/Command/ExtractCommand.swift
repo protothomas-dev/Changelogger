@@ -43,7 +43,7 @@ struct ExtractCommand: ParsableCommand {
             let file = try folder.createFileIfNeeded(at: outputPath)
             let path = file.path
             
-            try unreleasedChanges.write(toFile: path, atomically: true, encoding: .utf16)
+            try unreleasedChanges.write(toFile: path, atomically: true, encoding: .utf8)
         }
     }
     

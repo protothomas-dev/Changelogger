@@ -88,7 +88,7 @@ struct Changelog {
      Saves the changelog text to the provided changelogpath.
      */
     func save() throws {
-        try text.write(toFile: changelogPath, atomically: true, encoding: .utf16)
+        try text.write(toFile: changelogPath, atomically: true, encoding: .utf8)
     }
     
     // MARK: - Internal
@@ -97,7 +97,7 @@ struct Changelog {
         let unreleasedChanges = try extractUnreleasedChanges(from: text)
 
         let sdkVersionRegEx = try! NSRegularExpression(pattern: "(#{4}[A-Za-z0-9.\\s]+)")
-        let regexRange = NSRange(location: 0, length: unreleasedChanges.utf16.count)
+        let regexRange = NSRange(location: 0, length: unreleasedChanges.utf8.count)
 
         let matches = sdkVersionRegEx.matches(in: unreleasedChanges, options: [], range: regexRange)
             .map { Range($0.range, in: unreleasedChanges) }
@@ -116,7 +116,7 @@ struct Changelog {
         var newText = inputText
 
         let ticketNumberRegex = try NSRegularExpression(pattern: "\\[\(config.ticketPrefix)\\-(\\d*)\\][^\\(]")
-        var range = NSRange(location: 0, length: newText.utf16.count)
+        var range = NSRange(location: 0, length: newText.utf8.count)
 
         while let match = ticketNumberRegex.firstMatch(in: newText, options: [], range: range) {
             guard let ticketNumberRange = Range(match.range(at: 1), in: newText),
@@ -129,7 +129,7 @@ struct Changelog {
             Log.debug("Found unresolved ticket number \(ticketNumber)")
 
             newText = newText.replacingCharacters(in: fullRange, with: "[\(config.ticketPrefix)-\(ticketNumber)](\(config.ticketURLScheme)\(config.ticketPrefix)-\(ticketNumber)):")
-            range = NSRange(location: 0, length: newText.utf16.count)
+            range = NSRange(location: 0, length: newText.utf8.count)
         }
 
         return newText
@@ -137,7 +137,7 @@ struct Changelog {
 
     private func extractUnreleasedChanges(from inputText: String) throws -> String {
         let changesRegex = try NSRegularExpression(pattern: "Unreleased\\X\\X(?<unreleased>[\\s\\S]*?)\\-\\-\\-")
-        let range = NSRange(location: 0, length: inputText.utf16.count)
+        let range = NSRange(location: 0, length: inputText.utf8.count)
 
         if let firstMatch = changesRegex.firstMatch(in: inputText, options: [], range: range),
             let range = Range(firstMatch.range(withName: "unreleased"), in: text) {
