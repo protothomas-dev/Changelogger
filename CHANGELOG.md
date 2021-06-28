@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Improved
 
 - [#1]: update readme
+- [#2]: update interface of commands
 
 ---
 

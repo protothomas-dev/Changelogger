@@ -28,7 +28,7 @@ struct ResolveCommand: ParsableCommand {
         Log.isVerbose = verbose
         
         var changelog = try Changelog(changelogPath: changelogPath, configPath: configPath)
-        try changelog.updateTicketLinks()
+        try changelog.updateAllTicketLinks()
 
         if dryRun {
             Log.message(changelog.text)

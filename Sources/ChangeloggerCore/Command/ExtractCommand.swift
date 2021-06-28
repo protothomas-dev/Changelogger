@@ -16,8 +16,11 @@ struct ExtractCommand: ParsableCommand {
     @Argument(default: "CHANGELOG.md", help: "The path to the changelog file")
     private var changelogPath: String
     
-    @Option(name: .shortAndLong, help: "The path to the folder to which the extracted content should be saved to")
-    private var outputFolderPath: String?
+    @Option(name: .shortAndLong, default: "CHANGES.md", help: "The path to the folder to which the extracted content should be saved to")
+    private var outputPath: String
+
+    @Option(name: .shortAndLong, help: "The path to the changelog config file. If set, the links within the unreleased changes will be resolved")
+    private var configPath: String?
     
     @Flag(name: .shortAndLong, help: "Show extra logging for debugging purposes")
     private var verbose: Bool
@@ -28,7 +31,7 @@ struct ExtractCommand: ParsableCommand {
     func run() throws {
         Log.isVerbose = verbose
         
-        let changelog = try Changelog(changelogPath: changelogPath)
+        let changelog = try Changelog(changelogPath: changelogPath, configPath: configPath)
         let unreleasedChanges = try changelog.unreleasedChanges()
         
         if dryRun {
@@ -36,17 +39,9 @@ struct ExtractCommand: ParsableCommand {
         } else {
             Log.debug(unreleasedChanges)
             
-            var path = ""
-            
-            if let outputFolderPath = outputFolderPath {
-                let folder = try Folder(path: outputFolderPath)
-                let file = try folder.createFile(named: "CHANGES.md")
-                path = file.path
-            } else {
-                let folder = Folder.current
-                let file = try folder.createFile(named: "CHANGES.md")
-                path = file.path
-            }
+            let folder = Folder.current
+            let file = try folder.createFileIfNeeded(at: outputPath)
+            let path = file.path
             
             try unreleasedChanges.write(toFile: path, atomically: true, encoding: .utf16)
         }
