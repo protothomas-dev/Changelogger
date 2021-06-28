@@ -57,16 +57,21 @@ The tickets have to have a certain format as well, if you want to take advantage
 
 ## How to start
 
-First you have to create a binary using the command line. Open the terminal and navigate to the repo. From within the root folder, execute the following command
+First you have to create a binary using the command line. The easiest way to do that is to use the Makefile:
 
 ```
-swift build --configuration release
+make install
 ```
-You can find the binary in `.build/release`. If you want to use the tool on your machine, you should copy it into your local binary folder
+
+This will install the tool on your system.
+
+If you want to use it on your CI, you can simply create the binary with another command of the Makefile:
+
 ```
-cp -f .build/release/Changelogger /usr/local/bin/changelogger
+make release
 ```
-If you want to use it on a CI server, simple copy the binary into your project folder.
+
+You can find the binary in `.build/release`. To use it on a CI server, simple copy the binary into your project folder.
 
 ## How to use
 
