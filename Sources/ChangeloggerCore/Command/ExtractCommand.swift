@@ -14,13 +14,13 @@ struct ExtractCommand: ParsableCommand {
     public static let configuration = CommandConfiguration(commandName: "extract", abstract: "Extract the changes of current 'Unreleased' section")
     
     @Argument(help: "The path to the changelog file")
-    private var changelogPath: String = "CHANGELOG.md"
+    private var changelog: String = "CHANGELOG.md"
     
     @Option(name: .shortAndLong, help: "The path to the folder to which the extracted content should be saved to")
-    private var outputPath: String = "CHANGES.md"
+    private var output: String = "CHANGES.md"
 
     @Option(name: .shortAndLong, help: "The path to the changelog config file. If set, the links within the unreleased changes will be resolved")
-    private var configPath: String?
+    private var config: String?
     
     @Flag(name: .shortAndLong, inversion: .prefixedNo, help: "Show extra logging for debugging purposes")
     private var verbose: Bool
@@ -31,7 +31,7 @@ struct ExtractCommand: ParsableCommand {
     func run() throws {
         Log.isVerbose = verbose
         
-        let changelog = try Changelog(changelogPath: changelogPath, configPath: configPath)
+        let changelog = try Changelog(changelogPath: changelog, configPath: config)
         let unreleasedChanges = try changelog.unreleasedChanges()
         
         if dryRun {
@@ -40,7 +40,7 @@ struct ExtractCommand: ParsableCommand {
             Log.debug(unreleasedChanges)
             
             let folder = Folder.current
-            let file = try folder.createFileIfNeeded(at: outputPath)
+            let file = try folder.createFileIfNeeded(at: output)
             let path = file.path
             
             try unreleasedChanges.write(toFile: path, atomically: true, encoding: .utf8)

@@ -20,13 +20,13 @@ struct ReleaseCommand: ParsableCommand {
     private var buildNumber: String
     
     @Argument(help: "The path to the changelog file. If set, the links within the unreleased changes will be resolved")
-    private var changelogPath: String = "CHANGELOG.md"
+    private var changelog: String = "CHANGELOG.md"
 
     @Option(name: .shortAndLong, help: "The path to the folder to which the extracted content should be saved to")
-    private var outputPath: String = "CHANGES.md"
+    private var output: String = "CHANGES.md"
 
     @Option(name: .shortAndLong, help: "The path to the changelog config file. If set, the links within the unreleased changes will be resolved")
-    private var configPath: String?
+    private var config: String?
     
     @Flag(name: .shortAndLong, inversion: .prefixedNo, help: "Show extra logging for debugging purposes")
     private var verbose: Bool
@@ -37,9 +37,9 @@ struct ReleaseCommand: ParsableCommand {
     func run() throws {
         Log.isVerbose = verbose
 
-        var changelog = try Changelog(changelogPath: changelogPath, configPath: configPath)
+        var changelog = try Changelog(changelogPath: changelog, configPath: config)
 
-        if configPath != nil {
+        if config != nil {
             try changelog.updateAllTicketLinks()
         }
 
@@ -56,7 +56,7 @@ struct ReleaseCommand: ParsableCommand {
             try changelog.save()
 
             let folder = Folder.current
-            let file = try folder.createFileIfNeeded(at: outputPath)
+            let file = try folder.createFileIfNeeded(at: output)
             let path = file.path
 
             try unreleasedChanges.write(toFile: path, atomically: true, encoding: .utf8)

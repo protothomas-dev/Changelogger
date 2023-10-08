@@ -20,7 +20,7 @@ struct CloaseUnreleasedCommand: ParsableCommand {
     private var buildNumber: String
 
     @Argument(help: "The path to the changelog file. If set, the links within the unreleased changes will be resolved")
-    private var changelogPath: String = "CHANGELOG.md"
+    private var changelog: String = "CHANGELOG.md"
 
     @Flag(name: .shortAndLong, inversion: .prefixedNo, help: "Show extra logging for debugging purposes")
     private var verbose: Bool
@@ -31,7 +31,7 @@ struct CloaseUnreleasedCommand: ParsableCommand {
     func run() throws {
         Log.isVerbose = verbose
 
-        var changelog = try Changelog(changelogPath: changelogPath)
+        var changelog = try Changelog(changelogPath: changelog)
         try changelog.createVersion(versionNumber: versionNumber, buildNumber: buildNumber)
 
         if dryRun {
