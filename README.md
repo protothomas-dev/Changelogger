@@ -2,15 +2,15 @@
 
 A command line tool to manage a changelog.
 
-This tool is written in swift using the [swift argument parser](https://github.com/apple/swift-argument-parser) from apple. Instead of writing it in a script I decided to create a cli tool for this because that way I don't have to be concerned about all kinds of dependency issues, especially on CI environments you don't have control about. Also it was a fun little experiment to use swift for something like this.
+This tool is written in Swift using the [swift argument parser](https://github.com/apple/swift-argument-parser) from apple. It is a fun little experiment to use Swift for writing command line tools instead of writing scripts.
+
 
 ## Prerequisite
 
-Before you can use the command line tool, you first have to make sure the changeloge you want to manage has a certain structure.
-The changelog has to be written in markdown. This is important to remember, because at the core this tool uses regular expressions based that consider markdown codes.
-The structure is loosely following the [conventinal commits specification](https://www.conventionalcommits.org/en/v1.0.0/) by grouping the changes into several catagories.
+Before you can use the command line tool, you first have to make sure the changeloge you want to manage has a certain format.
+The required format is loosely following the [conventinal commits specification](https://www.conventionalcommits.org/en/v1.0.0/) by grouping the changes into several catagories. It is using [markdown](https://daringfireball.net/projects/markdown/syntax), which makes it easy to read in Texteditors and on plattforms like Github with automatic formatting.
 
-The changelog should have a structure like this
+The changelog must have a format like this:
 
 ```
 # Changelog
@@ -55,7 +55,7 @@ The tickets have to have a certain format as well, if you want to take advantage
 // -> [#123](https://github.com/username/project/issues/123): short description
 ```
 
-## How to start
+## How to install
 
 First you have to create a binary using the command line. The easiest way to do that is to use the Makefile:
 
@@ -72,6 +72,7 @@ make release
 ```
 
 You can find the binary in `.build/release`. To use it on a CI server, simple copy the binary into your project folder.
+
 
 ## How to use
 
@@ -99,6 +100,7 @@ To resolve the provided ticket numbers to markdown links to the corresponding we
 changelogger extract <config-file-path>
 ```
 
+
 ## Further information
 
 For more information, see the help section
@@ -113,12 +115,18 @@ OPTIONS:
   -h, --help              Show help information.
 
 SUBCOMMANDS:
-  release                 Rename the current 'Unreleased' section to the given
-                          version and build number and create a new
-                          'Unreleased' section atop
+  release                 Extracts the unreleased changes and closes the
+                          current 'Unreleased' section by renaming the section
+                          to the given version and build number and create a
+                          new 'Unreleased' section atop
   extract                 Extract the changes of current 'Unreleased' section
   resolve                 Resolve the provided ticket numbers to markdown links
                           to the corresponding URLs to the tickets
+  close-unreleased        Rename the current 'Unreleased' section to the given
+                          version and build number and create a new
+                          'Unreleased' section atop
+  version                 Shows the current version of the Changelogger
 
   See 'changelogger help <subcommand>' for detailed help.
+
 ```
