@@ -1,7 +1,7 @@
 --swiftversion 5.8
 
 # file options
---exclude DerivedData,Pods,**/Pods,vendor,.tuist-bin,.bundle,**/Derived,Tuist/Dependencies
+--exclude .build,.swiftpm
 
 # format options
 --indent 4

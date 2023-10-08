@@ -68,6 +68,7 @@ analyzer_rules:
 # paths to include
 included:
   - Sources
+  - Tests
 
 
 # custom values
