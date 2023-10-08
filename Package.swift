@@ -12,8 +12,8 @@ let package = Package(
         .executable(name: "Changelogger", targets: ["Changelogger"])
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.0.1"),
-        .package(url: "https://github.com/JohnSundell/Files", from: "4.0.0")
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.3"),
+        .package(url: "https://github.com/JohnSundell/Files", from: "4.2.0")
     ],
     targets: [
         .target(name: "Changelogger", dependencies: ["ChangeloggerCore"]),

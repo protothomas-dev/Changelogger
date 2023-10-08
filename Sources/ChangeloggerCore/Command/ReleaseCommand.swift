@@ -19,19 +19,19 @@ struct ReleaseCommand: ParsableCommand {
     @Argument(help: "The build number")
     private var buildNumber: String
     
-    @Argument(default: "CHANGELOG.md", help: "The path to the changelog file. If set, the links within the unreleased changes will be resolved")
-    private var changelogPath: String
+    @Argument(help: "The path to the changelog file. If set, the links within the unreleased changes will be resolved")
+    private var changelogPath: String = "CHANGELOG.md"
 
-    @Option(name: .shortAndLong, default: "CHANGES.md", help: "The path to the folder to which the extracted content should be saved to")
-    private var outputPath: String
+    @Option(name: .shortAndLong, help: "The path to the folder to which the extracted content should be saved to")
+    private var outputPath: String = "CHANGES.md"
 
     @Option(name: .shortAndLong, help: "The path to the changelog config file. If set, the links within the unreleased changes will be resolved")
     private var configPath: String?
     
-    @Flag(name: .shortAndLong, help: "Show extra logging for debugging purposes")
+    @Flag(name: .shortAndLong, inversion: .prefixedNo, help: "Show extra logging for debugging purposes")
     private var verbose: Bool
     
-    @Flag(name: .shortAndLong, help: "Show result without saving it")
+    @Flag(name: .shortAndLong, inversion: .prefixedNo, help: "Show result without saving it")
     private var dryRun: Bool
     
     func run() throws {
