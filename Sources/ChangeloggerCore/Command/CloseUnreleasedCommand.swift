@@ -11,7 +11,12 @@ import Foundation
 
 struct CloseUnreleasedCommand: ParsableCommand {
 
-    public static let configuration = CommandConfiguration(commandName: "close-unreleased", abstract: "Rename the current 'Unreleased' section to the given version and build number and create a new 'Unreleased' section atop")
+    public static let configuration = CommandConfiguration(commandName: "close-unreleased",
+                                                           abstract:
+                                                           """
+                                                           Rename the current 'Unreleased' section to the given version and build number and create
+                                                           a new 'Unreleased' section atop
+                                                           """)
 
     @Argument(help: "The version number")
     private var versionNumber: String

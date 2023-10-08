@@ -9,24 +9,32 @@ import ArgumentParser
 import Foundation
 
 struct ResolveCommand: ParsableCommand {
-    
-    public static let configuration = CommandConfiguration(commandName: "resolve", abstract: "Resolve the provided ticket numbers to markdown links to the corresponding URLs to the tickets")
-    
+
+    public static let configuration = CommandConfiguration(commandName: "resolve",
+                                                           abstract:
+                                                           """
+                                                           Resolve the provided ticket numbers to markdown links to the corresponding URLs to the tickets
+                                                           """)
+
     @Argument(help: "The path to the changelog file")
     private var changelogPath: String = "CHANGELOG.md"
-    
+
     @Argument(help: "The path to the changelog config file")
     private var configPath: String = "CHANGELOGGERCONFIG"
-    
-    @Flag(name: .shortAndLong, inversion: .prefixedNo, help: "Show extra logging for debugging purposes")
+
+    @Flag(name: .shortAndLong,
+          inversion: .prefixedNo,
+          help: "Show extra logging for debugging purposes")
     private var verbose: Bool
-    
-    @Flag(name: .shortAndLong, inversion: .prefixedNo, help: "Show result without saving it")
+
+    @Flag(name: .shortAndLong,
+          inversion: .prefixedNo,
+          help: "Show result without saving it")
     private var dryRun: Bool
-    
+
     func run() throws {
         Log.isVerbose = verbose
-        
+
         var changelog = try Changelog(changelogPath: changelogPath, configPath: configPath)
         try changelog.updateAllTicketLinks()
 
@@ -37,5 +45,5 @@ struct ResolveCommand: ParsableCommand {
             try changelog.save()
         }
     }
-    
+
 }
